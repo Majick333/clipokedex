@@ -1,5 +1,6 @@
 require_relative './scraper.rb'
 require_relative './pokemon.rb'
+require 'nokogiri'
 
 class CLI
 
@@ -31,12 +32,16 @@ class CLI
       def search_pokemon
         
         puts "Please type the name of the pokemon you wish to know about"
-        input = gets.strip.downcase + "/"
+        input = gets.strip.downcase 
+        
         if 
-          Pokemon.name.include?(input) == true
-          puts "Congrats"
-        else
-          puts "dammit Ryan"
+          Pokemon.all.find(input) 
+            puts "congrats"
+            
+          else
+            puts "dammit Ryan"
         end
       end
+      #self.run
     end
+  
