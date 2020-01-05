@@ -8,14 +8,14 @@ require 'pry'
 
 class Scraper
   attr_accessor :number, :name, :location
- 
- url = 'https://www.thonky.com/pokemon-lets-go/list-of-pokemon-locations'
- html = open(url)
- doc = Nokogiri::HTML(html)
- table = doc.css('table')
 
 @@all =[]
  
+def self.all 
+  @@all
+end
+
+
 def self.scrape_table
 
  url = 'https://www.thonky.com/pokemon-lets-go/list-of-pokemon-locations'
@@ -24,18 +24,31 @@ def self.scrape_table
  table = doc.css('table')
 
   pokemon = []
+
     table.search('tr').each do |row|
      cells = row.search('td')
-
-        pokemon_number = cells[0].to_s#.delete("<td>"),
-        pokemon_name = cells[1].to_s#.downcase.delete("<td>"),
-        pokemon_location = cells[2].to_s#.delete("<td>")   
+        pokemon_number = cells[0].to_s.delete("<td>").delete("/"),
+        pokemon_name = cells[1].to_s.downcase.delete("<td>").delete("/"),
+        pokemon_location = cells[2].to_s.delete("<td>").delete_prefix(" colspan=\"2").delete("/")
         pokemon << {number: pokemon_number, name: pokemon_name, location: pokemon_location }
-      end
-
+        
     end
-    puts pokemon
+    pokemon
+    @@all << pokemon
+    #puts @@all
   end
+end
+ 
+#Scraper.scrape_table
+
+      
+    
+    
+
+    
+    
+  
+  
   
 
 
@@ -53,7 +66,7 @@ def self.scrape_table
 
 
 
-end
+
 
 =begin
 
