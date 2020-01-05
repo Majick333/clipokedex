@@ -1,6 +1,4 @@
-require "clipokedex/version"
-
-module Clipokedex
-  class Error < StandardError; end
-  # Your code goes here...
-end
+require "./lib/version"
+#require './lib/pokemon.rb'
+require './lib/cli.rb'
+require './lib/scraper.rb'
