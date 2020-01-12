@@ -2,16 +2,12 @@
 require 'nokogiri'
 require 'open-uri'
 require 'pry'
-require_relative './pokemon.rb'
 
-#pokemon = {}
 
 class Scraper
   attr_accessor :number, :name, :location
 
-@@all =[]
-
-def initialize (number,name,location)
+def initialize # (number,name,location)
   @number = number,
   @name = name,
   @location = location
@@ -26,29 +22,28 @@ end
  @pokemon = []
 
   #search table for each row
-    table.search('tr').each do |row|
-      
-      #row.each do |creature|
-        #creature = Pokemon.new  
+    table.search('tr').each do |row| 
+      #search each row for data/cells
         cells = row.search('td')
          #each pokemon has 3 cells of data  
-         @pokemon <<         
+         #push hash onto array
+         @pokemon <<        
           {:number =>  cells[0].to_s.delete("<td>").delete("/"),
-          :name => cells[1].to_s.downcase.delete("<td>").delete("/"),
-          :location =>  cells[2].to_s.delete("<td>").delete_prefix(" colspan=\"2").delete("/").delete_prefix("\"")
-        }
+          :name => cells[1].to_s.downcase.gsub("<td>", "").delete("/").delete_suffix("<td>"),
+          :location =>  cells[2].to_s.gsub("</td>", "").slice(15..600)}
         
         
       end
-      puts @pokemon
+      puts @pokemon[0..154]
       
     
     
     
- #def self.search_by_name
+ def self.search_by_name
       puts " "
       puts " "
       puts "Welcome to CLI Pokedex"
+      puts "Find any Pokemon in Let's Go Pickachu or Let's Go Eevee"
       puts "Please Enter the name of the Pokemon you want to find"
       puts " "
       input = gets.strip.downcase
@@ -58,34 +53,36 @@ end
              puts " "
 
               @pokemon.find{ |name| name[:name] == input}.each do |attr,val|
-                puts("#{attr}=",val)
+                puts("#{attr}=",val.upcase)
                 puts " "
-
-                
-              end
-
-
+               end
       else
         puts "Sorry, Try Again"
+        Scraper.another?
       end
       
     end
     
       def self.another?
-        puts "Would you like to try again? --Y/N--"
-          input = gets.strip.downcase
-          if input == "y"
+        puts "Would you like to try another? --Y/N--"
+          input = gets.strip.upcase
+          if input == "Y"
             Scraper.new
-          elsif input == "n"
+            Scraper.search_by_name
+          
+          elsif input == "N"
               puts "Farewell!"
-          else
+              begin
+                exit!
+              end
+              
+          else input != "Y" || "N"
             puts "Invalid Entry"
-            another?
-          end
+            Scraper.another?
             end
+        end
 
-  
-
-
-
-  #end
+    def self.pokemon
+      @pokemon
+    end
+  end
