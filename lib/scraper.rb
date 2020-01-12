@@ -18,35 +18,43 @@ class Scraper
  html = open(url)
  doc = Nokogiri::HTML(html)
  table = doc.css('table')
- pokemon = []
+ @pokemon = []
 
   #search table for each row
     table.search('tr').each do |row|
       
-      
-    #each row makes a new pokemon
-      
-     cells = row.search('td') #each pokemon has 3 cells of data
-                  
-        pokemon_number =  cells[0].to_s.delete("<td>").delete("/"),
-        pokemon_name = cells[1].to_s.downcase.delete("<td>").delete("/"),
-        pokemon_location =  cells[2].to_s.delete("<td>").delete_prefix(" colspan=\"2").delete("/") 
+      #row.each do |creature|
+        #creature = Pokemon.new  
+        cells = row.search('td')
+         #each pokemon has 3 cells of data  
+         @pokemon <<         
+          {:number =>  cells[0].to_s.delete("<td>").delete("/"),
+          :name => cells[1].to_s.downcase.delete("<td>").delete("/"),
+          :location =>  cells[2].to_s.delete("<td>").delete_prefix(" colspan=\"2").delete("/") 
+        }
         
-        pokemon << {:number => pokemon_number, :name => pokemon_name, :location => pokemon_location }  
+        
       end
+      puts @pokemon
+      
+
+    
+    
+
+      
 
       puts "enter"
       input = gets.strip.downcase
-      if pokemon[:name].to_s == input
+      if @pokemon.find{ |name| name[:name] == input}
              puts "you win"
       
       else
         puts "dammit"
       end
-    end
+    
   
   
 
 
 
- # end
+  end
