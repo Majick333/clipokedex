@@ -4,13 +4,6 @@ require 'nokogiri'
 
 class CLI
 
-    attr_accessor :name
-
-    def input
-    input = gets.strip.downcase + "/"
-    end
-
-
     def run
         create_pokemon
         add_attributes_to_pokemon
@@ -30,17 +23,21 @@ class CLI
       end
 
       def search_pokemon
+
+        
         
         puts "Please type the name of the pokemon you wish to know about"
-        input = gets.strip.downcase 
-        
-        if 
-          Pokemon.all.find(input) 
-            puts "congrats"
-            
-          else
-            puts "dammit Ryan"
+        input = gets.strip.downcase
+
+        Pokemon.all.find
+      end
+
+      def display_pokemon
+        Pokemon.all.each do
+        puts "#"
         end
+        #puts Pokemon.name 
+        #puts Pokemon.location
       end
       #self.run
     end
