@@ -4,6 +4,10 @@ require 'nokogiri'
 
 class CLI
 
+    attr_accessor :name
+
+
+
     def run
         create_pokemon
         add_attributes_to_pokemon

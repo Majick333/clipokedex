@@ -11,6 +11,11 @@ class Scraper
 
 @@all =[]
 
+def initialize (number,name,location)
+  @number = number,
+  @name = name,
+  @location = location
+end
 
 #def self.scrape_table
 
@@ -30,31 +35,57 @@ class Scraper
          @pokemon <<         
           {:number =>  cells[0].to_s.delete("<td>").delete("/"),
           :name => cells[1].to_s.downcase.delete("<td>").delete("/"),
-          :location =>  cells[2].to_s.delete("<td>").delete_prefix(" colspan=\"2").delete("/") 
+          :location =>  cells[2].to_s.delete("<td>").delete_prefix(" colspan=\"2").delete("/").delete_prefix("\"")
         }
         
         
       end
       puts @pokemon
       
-
     
     
-
-      
-
-      puts "enter"
+    
+ #def self.search_by_name
+      puts " "
+      puts " "
+      puts "Welcome to CLI Pokedex"
+      puts "Please Enter the name of the Pokemon you want to find"
+      puts " "
       input = gets.strip.downcase
       if @pokemon.find{ |name| name[:name] == input}
-             puts "you win"
-      
+             puts " "
+             puts "It's Working"
+             puts " "
+
+              @pokemon.find{ |name| name[:name] == input}.each do |attr,val|
+                puts("#{attr}=",val)
+                puts " "
+
+                
+              end
+
+
       else
-        puts "dammit"
+        puts "Sorry, Try Again"
       end
+      
+    end
     
+      def self.another?
+        puts "Would you like to try again? --Y/N--"
+          input = gets.strip.downcase
+          if input == "y"
+            Scraper.new
+          elsif input == "n"
+              puts "Farewell!"
+          else
+            puts "Invalid Entry"
+            another?
+          end
+            end
+
   
-  
 
 
 
-  end
+  #end
