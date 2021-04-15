@@ -1,4 +1,4 @@
-#require_relative './lib/clipokedecells/clipokedecells.rb'
+
 require 'nokogiri'
 require 'open-uri'
 require 'pry'
